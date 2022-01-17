@@ -73,6 +73,46 @@ int czy_plik_istnieje(const char *filename)
     return 0;
 }
 
+void generowanie_planszy(char *mapa, int a, int start, int kierunek, int licznik)
+{
+    int ruch;
+
+    // sprawdzenie czy nie zostaly juz przejrzane wszystkie kierunki
+    if (licznik > 3)
+    {
+        return;
+    }
+
+    // wybor jednego z 4 kiernkow
+    switch (kierunek)
+    {
+    case 0:
+        ruch = 1;
+        break;
+    case 1:
+        ruch = -1;
+        break;
+    case 2:
+        ruch = -a;
+        break;
+    case 3:
+        ruch = a;
+        break;
+    }
+
+    // warunek sprawdzajacy czy mozna utworzyc sciezke
+    if ((start + ruch) % a != 0 && (start + ruch) % a != a - 1 && (start + ruch) > a && (start + ruch) < a * a - a && mapa[start + ruch] != 0 && mapa[start + 2 * ruch] != 0 && (start + ruch * 2) % a != 0 && (start + ruch * 2) % a != a - 1 && (start + ruch * 2) > a && (start + ruch * 2) < a * a - a)
+    {
+        // jesli tak to tworzy sie sciezka oraz wywolujemy funkcje dla nastepnego polozenia
+        mapa[start + ruch] = 0;
+        mapa[start + 2 * ruch] = 0;
+        generowanie_planszy(mapa, a, start + ruch * 2, rand() % 4, 0);
+    }
+
+    // jesli nie mozna utowrzyc sciezki wybieramy inny kierunek sprawdzania i wywolujemy funkcje
+    generowanie_planszy(mapa, a, start, (kierunek + 1) % 4, licznik + 1);
+}
+
 char *utworzenie_planszy(int a)
 {
 
@@ -107,6 +147,9 @@ char *utworzenie_planszy(int a)
     }
 
     mapa[start] = 0;
+
+    // generowanie mapy
+    generowanie_planszy(mapa, a, start, rand() % 4, 0);
 
     // generowanie miejsca koncowego
     int stop;
