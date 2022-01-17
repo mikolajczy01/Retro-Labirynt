@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <time.h>
 #include <dirent.h>
+#include <string.h>
 
 // czyszczenie terminala
 void clear_moj()
@@ -577,6 +578,138 @@ void nowa_gra(char *mapa, int a, int czas_zapis)
     zapis_wyniku(imie, punkty, a);
 }
 
+void ranking(int tryb)
+{
+    char nazwa[20];
+    int punkty;
+
+    clear_moj();
+
+    napis_ranking();
+
+    printf("\033[0;36m");
+
+    // otwarcie strumienia dla plikow do odczytu rankingu
+    FILE *plik;
+
+    // wybranie danego pliku do odczytu
+    switch (tryb)
+    {
+    case 9:
+        plik = fopen("ranking/ranking9x9.txt", "r");
+        printf("\nMAPY 9x9:\n");
+        break;
+    case 15:
+        plik = fopen("ranking/ranking15x15.txt", "r");
+        printf("\nMAPY 15x15:\n");
+        break;
+    case 23:
+        plik = fopen("ranking/ranking23x23.txt", "r");
+        printf("\nMAPY 23x23:\n");
+        break;
+    }
+
+    // sprawdzenie czy plik nie jest pusty
+    fseek(plik, 0, SEEK_END);
+
+    if (ftell(plik) != 0)
+    {
+
+        fseek(plik, 0, SEEK_SET);
+
+        // odczytanie z pliku zapisanych gracz oraz ich wynikow i wyswietlenie ich w terminalu
+        // odczyt dla najlepszej dwudziestki graczy
+        for (int i = 1; i <= 20; i++)
+        {
+            if (feof(plik))
+            {
+                break;
+            }
+
+            fscanf(plik, "%s %d\n", nazwa, &punkty);
+
+            printf("%d. %s ..........%dpkt\n", i, nazwa, punkty);
+        }
+    }
+    else
+    {
+        printf("Brak wynikow.");
+    }
+
+    printf("\033[0m");
+
+    fclose(plik);
+
+    printf("\n");
+
+    getch();
+}
+
+void wynik_gracza()
+{
+    char nick[20];
+    int pkt, wynik;
+    char nazwa[20];
+
+    clear_moj();
+
+    napis_ranking();
+
+    printf("\n\n\033[0;36mPodaj nazwe gracza ktorego wyniki chcesz zobaczyc: ");
+
+    scanf("%s", nick);
+
+    // otwarcie strumienia dla plikow do odczytu rankigu
+    FILE *plik;
+
+    for (int j = 0; j < 3; j++)
+    {
+        wynik = 0;
+
+        switch (j)
+        {
+        case 0:
+            plik = fopen("ranking/ranking9x9.txt", "r");
+            printf("\nMAPY 9x9:\n");
+            break;
+        case 1:
+            plik = fopen("ranking/ranking15x15.txt", "r");
+            printf("\nMAPY 15x15:\n");
+            break;
+        case 2:
+            plik = fopen("ranking/ranking23x23.txt", "r");
+            printf("\nMAPY 23x23:\n");
+            break;
+        }
+
+        // odczytanie z pliku zapisanych gracz oraz ich wynikow i wyswietlenie ich w terminalu
+        // odczyt najlepszych 5 wynikow danego gracza dla danej mapy
+        for (int i = 1; i <= 5; i++)
+        {
+
+            fscanf(plik, "%s %d", nazwa, &pkt);
+
+            if (feof(plik))
+            {
+                break;
+            }
+
+            if (strcmp(nick, nazwa) == 0)
+            {
+                printf("%d. %s ..........%d\n", i, nick, pkt);
+                wynik = 1;
+            }
+        }
+        if (wynik == 0)
+        {
+            printf("Brak wynikow!\n");
+        }
+        fclose(plik);
+    }
+    printf("\033[0m");
+    getch();
+}
+
 void ranking_menu()
 {
     // wybor opcji w menu rankingu
@@ -595,13 +728,13 @@ void ranking_menu()
         switch (getch())
         {
         case '1':
-
+            ranking(9);
             break;
         case '2':
-
+            ranking(15);
             break;
         case '3':
-
+            ranking(23);
             break;
         case '4':
 
