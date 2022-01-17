@@ -11,7 +11,7 @@ Projekt na zajęcia UG
 Gra Retro Labirynt została stworzona na systemy operacyjne Windows. Przedstawia działanie prostych algorytmów związanych z tworzeniem samego labiryntu jak i jego automatycznym przechodzeniem. Każda funkcja od podstaw została stworzona przez autora. To wszystko w tym temacie, życzę miłej gry :)
 
 ## Setup
-Aby włączyć gre wykonaj stępujące korki:
+Aby włączyć gre wykonaj następujące korki:
 ```
  cd ../Retro-Labirynt
  make install
