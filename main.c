@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 
 // czyszczenie terminala
 void clear_moj()
@@ -59,6 +60,8 @@ void napis_ranking()
     rcolor_stop();
 }
 
+void menu();
+
 int czy_plik_istnieje(const char *filename)
 {
     FILE *plik;
@@ -71,11 +74,42 @@ int czy_plik_istnieje(const char *filename)
 }
 
 int main(){
-    clear_moj();
-    napis_labirynt();
-    getchar();
-    napis_ranking();
-    getchar();
-    clear_moj;
+    menu();
+}
+
+void menu()
+{
+    // wybor opcji menu glownego
+    do
+    {
+
+        clear_moj();
+
+        napis_labirynt();
+
+        printf("\n\n\033[0;36m                                       ###################################");
+        printf("\n                                       ##         1. Nowa gra           ##");
+        printf("\n                                       ##          2.Ranking            ##");
+        printf("\n                                       ##        3.Wczytaj gre          ##");
+        printf("\n                                       ##            4.Wyjdz            ##");
+        printf("\n                                       ###################################\033[0m\n");
+
+        switch (getch())
+        {
+        case '1':
+            break;
+        case '2':
+            napis_ranking();
+            getchar();
+            break;
+        case '3':
+            break;
+        case '4':
+            return;
+        default:
+            printf("\nNIEPOPRAWNY WYBOR!");
+            getch();
+        }
+    } while (1);
 }
 
