@@ -115,6 +115,26 @@ void generowanie_planszy(char *mapa, int a, int start, int kierunek, int licznik
     generowanie_planszy(mapa, a, start, (kierunek + 1) % 4, licznik + 1);
 }
 
+void zapis_gry(char *mapa, int a, int czas)
+{
+    // otwieranie strumienia pliku z zapisem gry
+    FILE *plik = fopen("save/lastsave.txt", "w");
+
+    // kopiowanie wielkosci mapy (pierwsza liczba w pliku)
+    fprintf(plik, "%d ", a);
+
+    // kopiowanie mapy (ciag 0, 1 oraz jedna 2)
+    for (int i = 0; i < a * a; i++)
+    {
+        fprintf(plik, "%d ", mapa[i]);
+    }
+
+    // kopiowanie czasu ktory uplynal
+    fprintf(plik, "%d", czas);
+
+    fclose(plik);
+}
+
 void wyswietalnie_planszy(char *mapa, int a)
 {
     clear_moj();
