@@ -13,9 +13,9 @@ Gra Retro Labirynt została stworzona na systemy operacyjne Windows. Przedstawia
 ## Setup
 Aby włączyć gre wykonaj stępujące korki:
 ```
-$ cd ../Retro-Labirynt
-$ make install
-$ ./retolab.exe
+ cd ../Retro-Labirynt
+ make install
+ ./retolab.exe
 ```
 ## Features
 * rekurencyjna funkcja tworząca labirynt
