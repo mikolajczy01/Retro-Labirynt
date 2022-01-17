@@ -115,6 +115,99 @@ void generowanie_planszy(char *mapa, int a, int start, int kierunek, int licznik
     generowanie_planszy(mapa, a, start, (kierunek + 1) % 4, licznik + 1);
 }
 
+void zapis_wyniku(char *nick, int pkt, int tryb)
+{
+    char nick_inne[20];
+    int pkt_inne, i = 0;
+    char *nazwa_pliku;
+    char c;
+
+    // otwieramy strumienie plikow
+    FILE *plik_w, *plik_r;
+
+    // wybieramy odpowiedni plik do nadpisania
+    switch (tryb)
+    {
+    case 9:
+        nazwa_pliku = "ranking/ranking9x9.txt";
+        break;
+    case 15:
+        nazwa_pliku = "ranking/ranking15x15.txt";
+        break;
+    case 23:
+        nazwa_pliku = "ranking/ranking23x23.txt";
+        break;
+    default:
+        return;
+    }
+
+    plik_r = fopen(nazwa_pliku, "r");
+
+    fseek(plik_r, 0, SEEK_END);
+
+    // patrzymy czy plik jest pusty
+    if (ftell(plik_r) == 0)
+    {
+        plik_w = fopen(nazwa_pliku, "w");
+        fprintf(plik_w, "%s %d\n", nick, pkt);
+        fclose(plik_r);
+        fclose(plik_w);
+        return;
+    }
+
+    fseek(plik_r, 0, SEEK_SET);
+
+    // tworzymy plik tymczasowy aby moc posortowac wyniki
+    plik_w = fopen("tmp.txt", "w+");
+
+    while (1)
+    {
+        // odczytujemy dane z pliku ktory istanial
+        fscanf(plik_r, "%s %d", nick_inne, &pkt_inne);
+
+        if (feof(plik_r))
+        {
+            if (i == 0)
+            {
+                // kopiujemy dane do pliku tymczasowego
+                fprintf(plik_w, "%s %d\n", nick, pkt);
+            }
+            break;
+        }
+
+        // warunek sprawdzajacy kto ma wiecej punktow
+        if (pkt_inne < pkt && i == 0)
+        {
+
+            fprintf(plik_w, "%s %d\n", nick, pkt);
+            i = 1;
+        }
+
+        // kopiowanie wynikow reszty graczy
+        fprintf(plik_w, "%s %d\n", nick_inne, pkt_inne);
+    }
+
+    fclose(plik_r);
+
+    fclose(plik_w);
+
+    plik_w = fopen(nazwa_pliku, "w+");
+
+    plik_r = fopen("tmp.txt", "r");
+
+    // kopiowanie posrtowanych danych do odpowiedniego pilku
+    while ((c = fgetc(plik_r)) != EOF)
+    {
+        fputc(c, plik_w);
+    }
+
+    fclose(plik_w);
+
+    fclose(plik_r);
+
+    remove("tmp.txt");
+}
+
 void zapis_gry(char *mapa, int a, int czas)
 {
     // otwieranie strumienia pliku z zapisem gry
@@ -331,7 +424,7 @@ void nowa_gra(char *mapa, int a, int czas_zapis)
 
             // zapis i wyjscie z gry
             case 'x':
-                
+                zapis_gry(mapa, a, czas);
                 free(mapa);
                 return;
 
@@ -388,7 +481,7 @@ void nowa_gra(char *mapa, int a, int czas_zapis)
     // zwolnienie pamieci po przejsciu mapy
     free(mapa);
 
-    
+    zapis_wyniku(imie, punkty, a); 
 }
 
 void menu_nowa_gra()
