@@ -818,6 +818,54 @@ void menu_nowa_gra()
     nowa_gra(utworzenie_planszy(wielkosc), wielkosc, 0);
 }
 
+void wczyt_zapis()
+{
+
+    int a, czas;
+    char *mapa;
+    char x;
+
+    // sprawdzenie czy plik z ostatnim zapisem gry istnieje
+    if (czy_plik_istnieje("save/lastsave.txt"))
+    {
+        // otworzenie strumienia dla plikow
+        FILE *plik;
+
+        // otworzenie pliku z zapisaem
+        plik = fopen("save/lastsave.txt", "r");
+
+        fscanf(plik, "%d ", &a);
+
+        // alokacja pamieci dla mapy
+        mapa = (char *)malloc(a * a * (sizeof(char)));
+
+        // odcztanie konfiguracji mapy
+        for (int i = 0; i < a * a; i++)
+        {
+            fscanf(plik, "%c ", &x);
+            mapa[i] = x - '0';
+        }
+
+        // pobranie czasu przejscia mapy
+        fscanf(plik, "%d", &czas);
+
+        fclose(plik);
+
+        // usuniecie pliku z zapisem
+        remove("save/lastsave.txt");
+
+        nowa_gra(mapa, a, czas);
+    }
+    else
+    {
+        clear_moj();
+        napis_labirynt();
+        printf("\n\n\033[0;36mZadna gra wczesniej nie zostala zapisana!\033[0m");
+        getch();
+    }
+    return;
+}
+
 void menu_wczytaj_gre()
 {
 
@@ -839,13 +887,13 @@ void menu_wczytaj_gre()
         switch (getch())
         {
         case '1':
-            //wczyt_zapis();
+            wczyt_zapis();
             break;
         case '2':
-            //instrukcja_pob();
+            // instrukcja_pob();
             break;
         case '3':
-            //wczyt_pob();
+            // wczyt_pob();
             break;
         case '4':
             return;
