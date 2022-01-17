@@ -8,14 +8,14 @@ Projekt na zajęcia UG
 * [Author](#Author)
 
 ## General info
-Gra Retro Labirynt została stworzona, aby przedstawić działanie prostych algorytmów związanych z budowaniem samego labiryntu jak i jego przechodzeniem. Każda funkcja od podstaw została stworzona przez autora. To wszystko w tym temacie, życzę miłej gry :)
+Gra Retro Labirynt została stworzona na systemy operacyjne Windows. Przedstawia działanie prostych algorytmów związanych z tworzeniem samego labiryntu jak i jego automatycznym przechodzeniem. Każda funkcja od podstaw została stworzona przez autora. To wszystko w tym temacie, życzę miłej gry :)
 
 ## Setup
-Aby włączyć gre, skompliuj ją używając gcc:
+Aby włączyć gre wykonaj stępujące korki:
 ```
-$cd ../Retro-Labirynt
-$gcc main.c
-$./a.exe
+$ cd ../Retro-Labirynt
+$ make install
+$ ./retolab.exe
 ```
 ## Features
 * rekurencyjna funkcja tworząca labirynt
