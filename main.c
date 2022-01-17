@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <time.h>
+#include <dirent.h>
 
 // czyszczenie terminala
 void clear_moj()
@@ -437,6 +438,49 @@ void menu_nowa_gra()
     printf("\033[0m");
 
     nowa_gra(utworzenie_planszy(wielkosc), wielkosc, 0);
+}
+
+void tworzenie_plikow()
+{
+    // otwarcie strumienia dla folderow
+    DIR *folder;
+
+    // sprawdzenie czy dane foldery istnieja jesli nie to utowrzenie ich
+    if ((folder = opendir("ranking")) == NULL)
+    {
+        system("mkdir ranking");
+    }
+    closedir(folder);
+    if ((folder = opendir("save")) == NULL)
+    {
+        system("mkdir save");
+    }
+    // closedir(folder);
+    if ((folder = opendir("custommaps")) == NULL)
+    {
+        system("mkdir custommaps");
+    }
+    closedir(folder);
+
+    // otwarcie strumienia dla plikow
+    FILE *plik;
+
+    // sprawdzenie czy dane pliki istnieja jesli nie to utworzenie ich
+    if (!czy_plik_istnieje("ranking/ranking9x9.txt"))
+    {
+        plik = fopen("ranking/ranking9x9.txt", "w+");
+        fclose(plik);
+    }
+    if (!czy_plik_istnieje("ranking/ranking15x15.txt"))
+    {
+        plik = fopen("ranking/ranking15x15.txt", "w+");
+        fclose(plik);
+    }
+    if (!czy_plik_istnieje("ranking/ranking23x23.txt"))
+    {
+        plik = fopen("ranking/ranking23x23.txt", "w+");
+        fclose(plik);
+    }
 }
 
 int main()
