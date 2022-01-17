@@ -866,6 +866,23 @@ void wczyt_zapis()
     return;
 }
 
+void instrukcja_pob()
+{
+    clear_moj();
+    napis_labirynt();
+    printf("\n\n\033[0;36m                                       #########################################");
+    printf("\n                                       ##                                     ##");
+    printf("\n                                       ##     Pobierz mape z repozytorium     ##");
+    printf("\n                                       ##             github.com              ##");
+    printf("\n                                       ##                                     ##");
+    printf("\n                                       ##    Umiesc pobrana mape w folderze   ##");
+    printf("\n                                       ##            \'custommaps\'             ##");
+    printf("\n                                       ##                                     ##");
+    printf("\n                                       #########################################\033[0m\n");
+    getch();
+    return;
+}
+
 void menu_wczytaj_gre()
 {
 
