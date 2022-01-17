@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <time.h>
 
 // czyszczenie terminala
 void clear_moj()
@@ -226,6 +227,147 @@ char *utworzenie_planszy(int a)
     mapa[stop + a] = 0;
 
     return mapa;
+}
+
+void nowa_gra(char *mapa, int a, int czas_zapis)
+{
+    int ruch, punkty;
+    int start, stop;
+    char klawisz;
+    char imie[20];
+    clock_t czas;
+
+    clear_moj();
+
+    wyswietalnie_planszy(mapa, a);
+
+    czas = clock();
+
+    // znalezienie pozycji gracza
+    for (int i = 0; i < a * a; i++)
+    {
+        if (mapa[i] == 2)
+        {
+            ruch = i;
+            break;
+        }
+    }
+
+    // Sterowanie
+    while (ruch < a * a - a)
+    {
+
+        // oblsuga strzalek jako chodzenie po labiryncie
+        klawisz = getch();
+        if (klawisz != 224)
+        {
+            switch (klawisz)
+            {
+
+            // strzalka w dol
+            case 72:
+                if (mapa[ruch - a] == 0)
+                {
+                    mapa[ruch] = 0;
+                    mapa[ruch - a] = 2;
+                    ruch -= a;
+                    wyswietalnie_planszy(mapa, a);
+                }
+                break;
+
+            // strzalka w lewo
+            case 75:
+                if (mapa[ruch - 1] == 0)
+                {
+                    mapa[ruch] = 0;
+                    mapa[ruch - 1] = 2;
+                    ruch -= 1;
+                    wyswietalnie_planszy(mapa, a);
+                }
+                break;
+
+            // strzalka w prawo
+            case 77:
+                if (mapa[ruch + 1] == 0)
+                {
+                    mapa[ruch] = 0;
+                    mapa[ruch + 1] = 2;
+                    ruch += 1;
+                    wyswietalnie_planszy(mapa, a);
+                }
+                break;
+
+            // strzalka w gore
+            case 80:
+                if (mapa[ruch + a] == 0)
+                {
+                    mapa[ruch] = 0;
+                    mapa[ruch + a] = 2;
+                    ruch += a;
+                    wyswietalnie_planszy(mapa, a);
+                }
+                break;
+
+            // zapis i wyjscie z gry
+            case 'x':
+                
+                free(mapa);
+                return;
+
+            // wyjscie z gry bez zapisu
+            case 'v':
+                free(mapa);
+                return;
+
+            // przejscie labiryntu
+            case 'n':
+
+                return;
+            }
+        }
+    }
+
+    // punktacja
+    czas = clock() - czas + czas_zapis;
+
+    // punktacja 5.2s to (1/5.2)*10000 punktow
+    punkty = (int)((1 / (((float)czas) / CLOCKS_PER_SEC)) * 10000);
+
+    clear_moj();
+
+    // zapis nazwy gracza do rankingu dla rankingowych wersji gry oraz wyswietlenie wyniku niestandarodwych map
+    if (a == 9 || a == 15 || a == 23)
+    {
+        napis_labirynt();
+
+        printf("\n\n\033[0;36m                                       ####################################");
+        printf("\n                                       ##                                ##");
+        printf("\n                                            Czas przejscia: %.2f s", ((float)czas) / CLOCKS_PER_SEC);
+        printf("\n                                       ##                                ##");
+        printf("\n                                            Punkty: %d pkt", punkty);
+        printf("\n                                       ##                                ##");
+        printf("\n                                       ####################################");
+        printf("\n\n                                          Nazwa gracza (max 20 znakow): \033[0m");
+        scanf("%s", imie);
+    }
+    else
+    {
+        napis_labirynt();
+
+        printf("\n\n\033[0;36m                                       ####################################");
+        printf("\n                                       ##                                ##");
+        printf("\n                                            Czas przejscia: %.2f s", ((float)czas) / CLOCKS_PER_SEC);
+        printf("\n                                       ##                                ##");
+        printf("\n                                            Punkty: %d pkt", punkty);
+        printf("\n                                       ##                                ##");
+        printf("\n                                       ####################################\033[0m\n");
+        getch();
+    }
+
+    // zwolnienie pamieci po przejsciu mapy
+    free(mapa);
+
+    
 }
 
 void menu_nowa_gra()
