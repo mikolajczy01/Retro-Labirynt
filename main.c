@@ -73,6 +73,70 @@ int czy_plik_istnieje(const char *filename)
     return 0;
 }
 
+char *utworzenie_planszy(int a)
+{
+
+    char *mapa;
+    int start = rand() % a + a;
+
+    // alokacja pamieci na mape
+    mapa = (char *)malloc(a * a * sizeof(char));
+
+    // zapelnianie jedynkami(scianami) tablicy ktora reprezentuje mape
+    for (int i = 0; i < a * a; i++)
+    {
+        mapa[i] = 1;
+    }
+
+    // generowanie miejsca startowego losowo
+    if (start % 2 == 1)
+    {
+        start += 1;
+    }
+    if (start == 2 * a)
+    {
+        start -= 2;
+    }
+    if (start == 2 * a - 1)
+    {
+        start -= 1;
+    }
+    if (start == a)
+    {
+        start += 1;
+    }
+
+    mapa[start] = 0;
+
+    // generowanie miejsca koncowego
+    int stop;
+
+    do
+    {
+        stop = rand() % a + a * (a - 2);
+        if (stop % 2 == 1)
+        {
+            stop += 1;
+        }
+        if (stop == a * (a - 1))
+        {
+            stop -= 2;
+        }
+        if (stop == a * (a - 1) - 1)
+        {
+            stop -= 1;
+        }
+    } while (mapa[stop] == 1);
+
+    // ustawianie gracza na pozycji startowej
+    mapa[start - a] = 2;
+
+    // utworzenie wyjscia
+    mapa[stop + a] = 0;
+
+    return mapa;
+}
+
 void menu_nowa_gra()
 {
     int wielkosc;
