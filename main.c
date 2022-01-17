@@ -691,7 +691,16 @@ void tworzenie_plikow()
 
 int main()
 {
+    // ustawienie poczatkowe liczb pseudolosowych
+    srand(time(NULL));
+
+    // sprawdzenie czy pliki potrzebne do dzialania programu istnieja
+    tworzenie_plikow();
+
+    // wyswietlenie menu glownego
     menu();
+
+    return 0;
 }
 
 void menu()
@@ -714,7 +723,7 @@ void menu()
         switch (getch())
         {
         case '1':
-            menu_nowa_gra();
+            menu_nowa_gra(0);
             break;
         case '2':
             napis_ranking();
