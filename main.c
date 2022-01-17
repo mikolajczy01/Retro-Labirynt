@@ -276,6 +276,59 @@ void wyswietalnie_planszy(char *mapa, int a)
     printf("\033[0m");
 }
 
+int przejdz_labirynt(char *mapa, int a, int start, int stop, int kierunek, int licznik)
+{
+    int ruch;
+
+    // powrot funkcji gdy w kazdym z 4 kierunkow nie ma przejscia
+    if (licznik > 3)
+    {
+        return 0;
+    }
+
+    // jesli dojdziemy do konca funkcja zwraca jeden i zapelnia sciezke rozwiazaniem
+    if (start == stop)
+    {
+        mapa[start] = 3;
+        return 1;
+    }
+
+    // wybor kierunku
+    switch (kierunek)
+    {
+    case 0:
+        ruch = 1;
+        break;
+    case 1:
+        ruch = -1;
+        break;
+    case 2:
+        ruch = -a;
+        break;
+    case 3:
+        ruch = a;
+        break;
+    }
+
+    // warunek sprawdzajacy czy jest sciezka ktora da sie przejsc
+    if (mapa[start + ruch] == 0)
+    {
+        // stawianie niewidzialnych scian na rozdroazach
+        mapa[start + ruch] = 4;
+
+        // warunek ktory znalezc droga od startu do stopu w labiryncie
+        if (przejdz_labirynt(mapa, a, start + ruch * 2, stop, rand() % 4, 0) == 1)
+        {
+            mapa[start + ruch] = 3;
+            mapa[start] = 3;
+            return 1;
+        }
+    }
+
+    // sprawdzanie innych kierunkow
+    przejdz_labirynt(mapa, a, start, stop, (kierunek + 1) % 4, licznik + 1);
+}
+
 char *utworzenie_planszy(int a)
 {
 
@@ -435,6 +488,46 @@ void nowa_gra(char *mapa, int a, int czas_zapis)
 
             // przejscie labiryntu
             case 'n':
+                // usuniecie awatara gracza z mapy
+                mapa[ruch] = 0;
+
+                // znalezienie wejscia
+                for (int i = 0; i < a; i++)
+                {
+                    if (mapa[i] == 0)
+                    {
+                        start = i;
+                    }
+                }
+
+                // znalezienie wyjscia
+                for (int i = a * a - a; i < a * a; i++)
+                {
+                    if (mapa[i] == 0)
+                    {
+                        stop = i;
+                    }
+                }
+
+                // podmiana wejscia i wyjscia na sciany
+                mapa[start] = 1;
+                mapa[stop] = 1;
+
+                // sprawdzenie czy da sie przejsc labirynt
+                if (przejdz_labirynt(mapa, a, start + a, stop - a, rand() % 4, 0) == 0)
+                {
+                    printf("ERROR 404");
+                    getchar();
+                }
+
+                // podmiana wyjsc na rozwiazanie labiryntu
+                mapa[start] = 3;
+                mapa[start + a] = 3;
+                mapa[stop] = 3;
+
+                wyswietalnie_planszy(mapa, a);
+                free(mapa);
+                getch();
 
                 return;
             }
@@ -481,7 +574,7 @@ void nowa_gra(char *mapa, int a, int czas_zapis)
     // zwolnienie pamieci po przejsciu mapy
     free(mapa);
 
-    zapis_wyniku(imie, punkty, a); 
+    zapis_wyniku(imie, punkty, a);
 }
 
 void menu_nowa_gra()
