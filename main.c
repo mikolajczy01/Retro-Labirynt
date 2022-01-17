@@ -390,13 +390,13 @@ void menu_nowa_gra()
         switch (getch())
         {
         case '1':
-
+            nowa_gra(utworzenie_planszy(9), 9, 0);
             return;
         case '2':
-
+            nowa_gra(utworzenie_planszy(15), 15, 0);
             return;
         case '3':
-
+            nowa_gra(utworzenie_planszy(23), 23, 0);
             return;
         case '4':
             do
@@ -424,7 +424,7 @@ void menu_nowa_gra()
                     break;
                 }
             } while (1);
-
+            nowa_gra(utworzenie_planszy(wielkosc), wielkosc, 0);
             return;
         case '5':
             return;
@@ -435,6 +435,8 @@ void menu_nowa_gra()
     } while (1);
 
     printf("\033[0m");
+
+    nowa_gra(utworzenie_planszy(wielkosc), wielkosc, 0);
 }
 
 int main()
