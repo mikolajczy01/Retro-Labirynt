@@ -737,7 +737,7 @@ void ranking_menu()
             ranking(23);
             break;
         case '4':
-
+            wynik_gracza();
             break;
         case '5':
             return;
@@ -816,6 +816,44 @@ void menu_nowa_gra()
     printf("\033[0m");
 
     nowa_gra(utworzenie_planszy(wielkosc), wielkosc, 0);
+}
+
+void menu_wczytaj_gre()
+{
+
+    // wybor opcji w menu nowej gry
+    do
+    {
+
+        clear_moj();
+
+        napis_labirynt();
+
+        printf("\n\n\033[0;36m                                       ####################################");
+        printf("\n                                       ##    1. Wczytaj ostatni zapis    ##");
+        printf("\n                                       ##  2. Instrukcja pobierania map  ##");
+        printf("\n                                       ##    3. Wczytaj pobrany zapis    ##");
+        printf("\n                                       ##            4.Powrot            ##");
+        printf("\n                                       ####################################\033[0m\n");
+
+        switch (getch())
+        {
+        case '1':
+            //wczyt_zapis();
+            break;
+        case '2':
+            //instrukcja_pob();
+            break;
+        case '3':
+            //wczyt_pob();
+            break;
+        case '4':
+            return;
+        default:
+            printf("\nNIEPOPRAWNY WYBOR!");
+            getch();
+        }
+    } while (1);
 }
 
 void tworzenie_plikow()
