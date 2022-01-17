@@ -866,19 +866,121 @@ void wczyt_zapis()
     return;
 }
 
+void wczyt_pob()
+{
+
+    int x, a, czas;
+    int i;
+    char *mapa;
+    char y;
+
+    // otwarcie strumienia dla folderow
+    DIR *folder;
+
+    // stowrzenie struktury dla przechowywania zawartosci danego folderu
+    struct dirent *folder_zawartosc;
+
+    do
+    {
+        clear_moj();
+
+        napis_labirynt();
+
+        // otwarcie folderu custommaps
+        folder = opendir("custommaps");
+
+        seekdir(folder, 2);
+
+        i = 1;
+
+        printf("\n\n\033[0;36m");
+        printf("\n                              ##########################################################");
+        printf("\n                              ##                                                      ##");
+
+        // petla wypisujaca zawartosc folderu z mapami pobranymi z githuba
+        while ((folder_zawartosc = readdir(folder)) != NULL)
+        {
+            printf("\n                                                   %d. %s", i, folder_zawartosc->d_name);
+            i++;
+        }
+
+        printf("\n                                                    %d. Powrot", i);
+        printf("\n                              ##                                                      ##");
+        printf("\n                              ##########################################################\n");
+
+        x = getch() - '0';
+
+        // sprawdzanie czy wybrana opcja w menu istnieje
+        if (x == i)
+        {
+            return;
+        }
+        else if (x > i || x < 1)
+        {
+            printf("\nNIEPOPRAWNY WYBOR!");
+            getch();
+        }
+        else
+        {
+            break;
+        }
+
+    } while (1);
+
+    printf("\033[0m\n");
+
+    rewinddir(folder);
+
+    seekdir(folder, 2);
+
+    for (int j = 0; j < x; j++)
+    {
+        folder_zawartosc = readdir(folder);
+    }
+
+    closedir(folder);
+
+    // otwarcie strumienia dla plikow
+    FILE *plik;
+
+    char nazwa_plik[] = "custommaps/";
+
+    // otwarcie pliku wybranego przez uzytkownika
+    plik = fopen(strcat(nazwa_plik, folder_zawartosc->d_name), "r");
+
+    fscanf(plik, "%d ", &a);
+
+    // alokacja pamieci dla mapy
+    mapa = (char *)malloc(a * a * (sizeof(char)));
+
+    // wczytanie konfiguracji mapy
+    for (int j = 0; j < a * a; j++)
+    {
+        fscanf(plik, "%c ", &y);
+        mapa[j] = y - '0';
+    }
+
+    // wczytanie czasu gracza
+    fscanf(plik, "%d", &czas);
+
+    fclose(plik);
+
+    nowa_gra(mapa, a, czas);
+}
+
 void instrukcja_pob()
 {
     clear_moj();
     napis_labirynt();
-    printf("\n\n\033[0;36m                                       #########################################");
-    printf("\n                                       ##                                     ##");
-    printf("\n                                       ##     Pobierz mape z repozytorium     ##");
-    printf("\n                                       ##             github.com              ##");
-    printf("\n                                       ##                                     ##");
-    printf("\n                                       ##    Umiesc pobrana mape w folderze   ##");
-    printf("\n                                       ##            \'custommaps\'             ##");
-    printf("\n                                       ##                                     ##");
-    printf("\n                                       #########################################\033[0m\n");
+    printf("\n\n\033[0;36m                                       ######################################################");
+    printf("\n                                       ##                                                  ##");
+    printf("\n                                       ##            Pobierz mape z repozytorium           ##");
+    printf("\n                                       ##  https://github.com/mikolajczy01/Retro-Labirynt  ##");
+    printf("\n                                       ##                                                  ##");
+    printf("\n                                       ##           Umiesc pobrana mape w folderze         ##");
+    printf("\n                                       ##                   \'custommaps\'                   ##");
+    printf("\n                                       ##                                                  ##");
+    printf("\n                                       ######################################################\033[0m\n");
     getch();
     return;
 }
@@ -907,10 +1009,10 @@ void menu_wczytaj_gre()
             wczyt_zapis();
             break;
         case '2':
-            // instrukcja_pob();
+            instrukcja_pob();
             break;
         case '3':
-            // wczyt_pob();
+            wczyt_pob();
             break;
         case '4':
             return;
@@ -1001,10 +1103,10 @@ void menu()
             menu_nowa_gra();
             break;
         case '2':
-            napis_ranking();
-            getch();
+            ranking_menu();
             break;
         case '3':
+            menu_wczytaj_gre();
             break;
         case '4':
             return;
