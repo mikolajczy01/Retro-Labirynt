@@ -577,6 +577,45 @@ void nowa_gra(char *mapa, int a, int czas_zapis)
     zapis_wyniku(imie, punkty, a);
 }
 
+void ranking_menu()
+{
+    // wybor opcji w menu rankingu
+    do
+    {
+
+        clear_moj();
+        napis_ranking();
+        printf("\n\n\033[0;36m                                       ####################################");
+        printf("\n                                       ##         1. Ranking 9x9         ##");
+        printf("\n                                       ##        2. Ranking 15x15        ##");
+        printf("\n                                       ##        3. Ranking 23x23        ##");
+        printf("\n                                       ##        4. Wyniki gracza        ##");
+        printf("\n                                       ##            5. Powrot           ##");
+        printf("\n                                       ####################################\033[0m\n");
+        switch (getch())
+        {
+        case '1':
+
+            break;
+        case '2':
+
+            break;
+        case '3':
+
+            break;
+        case '4':
+
+            break;
+        case '5':
+            return;
+        default:
+            printf("\nNIEPOPRAWNY WYBOR!");
+            getch();
+        }
+
+    } while (1);
+}
+
 void menu_nowa_gra()
 {
     int wielkosc;
@@ -723,7 +762,7 @@ void menu()
         switch (getch())
         {
         case '1':
-            menu_nowa_gra(0);
+            menu_nowa_gra();
             break;
         case '2':
             napis_ranking();
