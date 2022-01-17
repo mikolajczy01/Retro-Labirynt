@@ -73,6 +73,75 @@ int czy_plik_istnieje(const char *filename)
     return 0;
 }
 
+void menu_nowa_gra()
+{
+    int wielkosc;
+    // wybor opcji w menu nowej gry
+    do
+    {
+        clear_moj();
+
+        napis_labirynt();
+
+        printf("\n\n\033[0;36m                                       ####################################");
+        printf("\n                                       ##         1. Plansza 9x9         ##");
+        printf("\n                                       ##        2. Plansza 15x15        ##");
+        printf("\n                                       ##        3. Plansza 23x23        ##");
+        printf("\n                                       ##       4. Wybierz rozmiar       ##");
+        printf("\n                                       ##            5. Powrot           ##");
+        printf("\n                                       ####################################\033[0m\n");
+        switch (getch())
+        {
+        case '1':
+           
+            return;
+        case '2':
+            
+            return;
+        case '3':
+            
+            return;
+        case '4':
+            do
+            {
+
+                clear_moj();
+                napis_labirynt();
+                printf("\n\n\033[0;36m                              ##########################################################");
+                printf("\n                              ##                                                      ##");
+                printf("\n                              ##  Wybierz wielkosc mapy w formacie AxA                ##");
+                printf("\n                              ##  Gdzie A jest liczba nieparzysta z przedialu <9,35>  ##");
+                printf("\n                              ##                                                      ##");
+                printf("\n                              ##########################################################");
+                printf("\n\n                                            Podaj wielkosc mapy:");
+
+                scanf("%d", &wielkosc);
+
+                if (wielkosc % 2 == 0 || wielkosc < 9 || wielkosc > 35)
+                {
+                    printf("Niepoprawne dane!");
+                    getch();
+                }
+                else
+                {
+                    break;
+                }
+            } while (1);
+            
+            return;
+        case '5':
+            return;
+        default:
+            printf("\nNIEPOPRAWNY WYBOR!");
+            getch();
+        }
+    } while (1);
+
+    printf("\033[0m");
+
+    
+}
+
 int main(){
     menu();
 }
@@ -97,10 +166,11 @@ void menu()
         switch (getch())
         {
         case '1':
+            menu_nowa_gra();
             break;
         case '2':
             napis_ranking();
-            getchar();
+            getch();
             break;
         case '3':
             break;
