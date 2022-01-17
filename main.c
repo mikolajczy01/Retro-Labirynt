@@ -59,8 +59,23 @@ void napis_ranking()
     rcolor_stop();
 }
 
+int czy_plik_istnieje(const char *filename)
+{
+    FILE *plik;
+    if ((plik = fopen(filename, "r")))
+    {
+        fclose(plik);
+        return 1;
+    }
+    return 0;
+}
+
 int main(){
+    clear_moj();
     napis_labirynt();
+    getchar();
+    napis_ranking();
+    getchar();
     clear_moj;
 }
 
