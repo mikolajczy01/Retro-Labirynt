@@ -113,6 +113,54 @@ void generowanie_planszy(char *mapa, int a, int start, int kierunek, int licznik
     generowanie_planszy(mapa, a, start, (kierunek + 1) % 4, licznik + 1);
 }
 
+void wyswietalnie_planszy(char *mapa, int a)
+{
+    clear_moj();
+
+    printf("\033[0;36m");
+
+    // podmiana 0 na sciany, 1 na przejscia, 2 na gracza, oraz 4 na sciezke przy rozwiazaniu labiryntu automatycznie
+    for (int i = 0; i < a * a; i++)
+    {
+        switch (mapa[i])
+        {
+        case 1:
+            printf("[-]");
+            break;
+        case 0:
+            printf("   ");
+            break;
+        case 2:
+            printf("\033[0;33m");
+            printf("\\o/");
+            printf("\033[0;36m");
+            break;
+        case 3:
+            printf("\033[0;33m");
+            printf("XXX");
+            printf("\033[0;36m");
+            break;
+        case 4:
+            printf("   ");
+            break;
+        }
+        if (i % a == a - 1)
+        {
+            printf("\n");
+        }
+    }
+
+    printf("\033[0;32m");
+
+    printf("\nINSTRUKCJA: ");
+    printf("\nPoruszanie sie - strzalki");
+    printf("\nZapis i wyjscie - x");
+    printf("\nWyjscie bez zapisu - v");
+    printf("\nRozwiazanie labiryntu - n\n");
+
+    printf("\033[0m");
+}
+
 char *utworzenie_planszy(int a)
 {
 
@@ -200,13 +248,13 @@ void menu_nowa_gra()
         switch (getch())
         {
         case '1':
-           
+
             return;
         case '2':
-            
+
             return;
         case '3':
-            
+
             return;
         case '4':
             do
@@ -234,7 +282,7 @@ void menu_nowa_gra()
                     break;
                 }
             } while (1);
-            
+
             return;
         case '5':
             return;
@@ -245,11 +293,10 @@ void menu_nowa_gra()
     } while (1);
 
     printf("\033[0m");
-
-    
 }
 
-int main(){
+int main()
+{
     menu();
 }
 
@@ -289,4 +336,3 @@ void menu()
         }
     } while (1);
 }
-
