@@ -1,17 +1,17 @@
-name: Makefile
+# name: Makefile
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
+#     steps:
       
-    - name: Install dependencies
-      run: make install
+#     - name: Install dependencies
+#       run: make install
