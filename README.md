@@ -4,6 +4,7 @@ Projekt na zajęcia UG
 ## Spis treści
 * [Informacje Generalne](#Informacje-Generalne)
 * [Konfiguracja](#Konfiguracja)
+* [Pobieranie Map](#Pobieranie-Map)
 * [Funkcje](#Funkcje)
 * [Autor](#Autor)
 
@@ -17,11 +18,16 @@ Aby włączyć gre wykonaj następujące korki:
  make install
  ./retolab.exe
 ```
+
+## Pobieranie Map
+Dodatkowe mapy wygenerowane przez autora zostały zamieszczone w folderze 'custommaps', aby je pobrać wystarczy przekopiować ten folder do miesjca w którym znajduje się plik z grą a następnie w menu wybrać opcje wczytaj gre -> wczytaj pobrany zapis.
+
 ## Funkcje
 * rekurencyjna funkcja tworząca labirynt
 * rekurencyjna funkcja przechodząca labirynt
 * kolorowe napisy bez użycia specjalnych bibliotek
 * zapisujące się rankingi
+* dodatkowe mapy od autora
 * wiele fanu z gry 
 
 ## Autor
