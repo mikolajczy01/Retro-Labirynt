@@ -1,4 +1,4 @@
 install: main.c
-	gcc -o retrolab
+	gcc main.c -o retrolab
 clean:
 	rm -f Makefile
