@@ -1049,7 +1049,7 @@ void tworzenie_plikow()
     {
         system("mkdir save");
     }
-    // closedir(folder);
+    closedir(folder);
     if ((folder = opendir("custommaps")) == NULL)
     {
         system("mkdir custommaps");
